@@ -38,17 +38,11 @@ growth = df.pct_change(axis=1) * 100
 plt.figure(figsize=(14, 10))
 
 sns.heatmap(growth, cmap="RdYlGn", center=0, cbar_kws={'label': '% Change'})
-
 plt.title("Year-to-Year Growth Volatility by Space Economy Sector (2012–2023)", fontsize=16, weight="bold")
-
 plt.xlabel("Year")
-
 plt.ylabel("Sector")
-
 plt.xticks(ticks=range(len(growth.columns)), labels=growth.columns, rotation=45, ha="right")
-
 plt.tight_layout()
-
 plt.show()
 
 
@@ -57,15 +51,9 @@ plt.show()
 volatility = growth.std(axis=1).sort_values(ascending=False)
 
 plt.figure(figsize=(12, 8))
-
 volatility.plot(kind="bar", color="steelblue")
-
 plt.title("Volatility Index of Space Economy Sectors (2012–2023)", fontsize=16, weight="bold")
-
 plt.ylabel("Std Dev of YoY Growth (%)")
-
 plt.xticks(rotation=45, ha="right")
-
 plt.tight_layout()
-
 plt.show()

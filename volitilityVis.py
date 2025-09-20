@@ -90,3 +90,50 @@ plt.ylabel("Reward (Average YoY Growth %)")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
+
+# --- Calculate Year-over-Year (YoY) growth (%) ---
+growth = df.pct_change(axis=1) * 100
+
+# --- NEW: Correlation Analysis and Bar Chart ---
+
+# Transpose the growth DataFrame so sectors are columns
+growth_transposed = growth.T
+
+# Calculate the correlation matrix
+correlation_matrix = growth_transposed.corr()
+
+# Unstack the matrix to get a list of all pairs
+# This converts the grid of correlations into a single list
+corr_pairs = correlation_matrix.unstack().sort_values(kind="quicksort")
+
+# Remove self-correlations (e.g., a sector's correlation with itself is always 1)
+corr_pairs = corr_pairs[corr_pairs != 1]
+
+# To avoid duplicates (e.g., (A,B) and (B,A)), we can take every second item
+# This gives us a clean list of unique pairs
+unique_corr_pairs = corr_pairs.iloc[::2]
+
+# --- Create the Visualization ---
+# Get the 5 pairs with the highest positive correlation
+top_5_positive = unique_corr_pairs.nlargest(5)
+
+# Get the 5 pairs with the highest negative correlation (smallest values)
+top_5_negative = unique_corr_pairs.nsmallest(5)
+
+# Create the figure with two subplots (one for positive, one for negative)
+fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 10))
+fig.suptitle('Most Significant Sector Correlations', fontsize=20, weight='bold')
+
+# Plot the most POSITIVE correlations
+top_5_positive.plot(kind='barh', ax=axes[0], color='seagreen')
+axes[0].set_title('Top 5 Most Positively Correlated Pairs (Sectors that Move Together)', fontsize=14)
+axes[0].set_xlabel('Correlation Coefficient')
+axes[0].set_xlim(0, 1) # Set x-axis limits for positive correlations
+
+# Plot the most NEGATIVE correlations
+top_5_negative.plot(kind='barh', ax=axes[1], color='crimson')
+axes[1].set_title('Top 5 Most Negatively Correlated Pairs (Sectors that Move Oppositely)', fontsize=14)
+axes[1].set_xlabel('Correlation Coefficient')
+
+plt.tight_layout(rect=[0, 0, 1, 0.96])
+plt.show()

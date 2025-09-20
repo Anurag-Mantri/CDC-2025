@@ -26,7 +26,7 @@ df = df[df[year_cols].notna().any(axis=1)]
 # Replace the "…" character with NaN and convert all year columns to a numeric type
 df = df.replace("…", pd.NA)
 for col in year_cols:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
+    df[col] = pd.to_numeric(df[col], errors="coerce")
 
 # Set 'Sector' as the index for easier data manipulation
 df = df.set_index("Sector")

@@ -6,7 +6,7 @@ import seaborn as sns
 
 # Load dataset (adjust filename if needed)
 
-df = pd.read_excel(r"C:\*****\Industries excel.xlsx") #Copy path from your local system
+df = pd.read_excel(r"C:\Users\anura\Downloads\Industries excel.xlsx") #Copy path from your local system
 
 # Rename the first column to 'Sector'
 df.rename(columns={df.columns[0]: "Sector"}, inplace=True)
